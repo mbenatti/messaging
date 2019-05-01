@@ -22,7 +22,7 @@ defmodule Messaging.Core.MessageJob do
   def run(queue, msg) do
     # Processing the message
     # Some logic ex. save on db, etc.
-    Logger.info("MessageJob - Queue: #{queue} -> Msg: #{msg}}")
+    Logger.info("MessageJob - Queue: #{queue} -> Msg: #{msg}")
 
     :ok
   end
