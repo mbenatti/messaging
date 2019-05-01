@@ -61,7 +61,10 @@ http://localhost:4000/receive-message?queue=my_queue&message=my_msg
 
 2. You can manually see the logs time
 
+
 ```
+$ iex -S mix
+
 iex(1)> alias Messaging.Core.QueueManager
 iex(2)> for i <- 1..5 do                                                      
 ...(2)> QueueManager.enqueue "Queue 1", "Hello World #{i}"                    
