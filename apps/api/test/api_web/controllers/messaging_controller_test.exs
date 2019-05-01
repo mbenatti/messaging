@@ -5,7 +5,8 @@ defmodule Messaging.APIWeb.MessagingControllerTest do
 
   describe "receive message" do
     test "success", %{conn: conn} do
-      %Plug.Conn{status: status, resp_body: resp} = get(conn, @path, %{"queue" => "my_queue", "message" => "my_msg"})
+      %Plug.Conn{status: status, resp_body: resp} =
+        get(conn, @path, %{"queue" => "my_queue", "message" => "my_msg"})
 
       %{"message" => resp_message} = Jason.decode!(resp)
       assert resp_message =~ "Message received!"
@@ -20,5 +21,4 @@ defmodule Messaging.APIWeb.MessagingControllerTest do
       refute status == 200
     end
   end
-
 end

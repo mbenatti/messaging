@@ -12,7 +12,7 @@ defmodule Messaging.Core.MessageJob do
   """
   @spec start(String.t(), String.t()) :: Task.t()
   def start(queue, msg) do
-    Task.Supervisor.async_nolink(Messaging.MessageJobSupervisor, __MODULE__, :run, [queue,msg])
+    Task.Supervisor.async_nolink(Messaging.MessageJobSupervisor, __MODULE__, :run, [queue, msg])
   end
 
   @doc """

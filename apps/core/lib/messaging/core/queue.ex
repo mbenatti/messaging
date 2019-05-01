@@ -2,7 +2,7 @@ defmodule Messaging.Core.Queue do
   @moduledoc """
   Represent a Queue, each queue is a Process and constains the logic to process a message on a given interval
   """
-  
+
   use GenServer
 
   @prefix "queue_"
@@ -15,9 +15,11 @@ defmodule Messaging.Core.Queue do
   Spawns a new queue server process registered under the given `queue_name`.
   """
   def start_link(queue_name) do
-    GenServer.start_link(__MODULE__,
+    GenServer.start_link(
+      __MODULE__,
       [],
-      name: via_tuple(queue_name))
+      name: via_tuple(queue_name)
+    )
   end
 
   @doc """
@@ -44,16 +46,17 @@ defmodule Messaging.Core.Queue do
   Process the message on each second( or other interval, provided by `:message_interval` config
   """
   def handle_info(:process_message, queue) do
-    new_queue = case :queue.out(queue) do
-      {{:value, message}, queue} ->
-        MessageJob.start(my_queue_name(), message)
-        queue
+    new_queue =
+      case :queue.out(queue) do
+        {{:value, message}, queue} ->
+          MessageJob.start(my_queue_name(), message)
+          queue
 
-      {:empty, queue} ->
-#        Logger.debug("The queue: #{my_queue_name()} is empty}")
+        {:empty, queue} ->
+          #        Logger.debug("The queue: #{my_queue_name()} is empty}")
 
-        queue
-    end
+          queue
+      end
 
     Process.send_after(self(), :process_message, get_interval())
 
@@ -91,7 +94,7 @@ defmodule Messaging.Core.Queue do
   end
 
   defp my_queue_name do
-    Registry.keys(Messaging.QueueRegistry, self()) |> List.first
+    Registry.keys(Messaging.QueueRegistry, self()) |> List.first()
   end
 
   defp get_interval() do

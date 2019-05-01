@@ -20,7 +20,6 @@ defmodule Messaging.CoreTest do
   end
 
   test "ensure :process_message executed on each second" do
-
     queue_name = "queue_name"
     QueueManager.start_queue(queue_name)
 
@@ -39,7 +38,6 @@ defmodule Messaging.CoreTest do
   end
 
   test ":process_message successful processed the message" do
-
     queue_name = "queue_name"
     QueueManager.start_queue(queue_name)
 

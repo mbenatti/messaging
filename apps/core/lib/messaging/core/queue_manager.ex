@@ -25,6 +25,7 @@ defmodule Messaging.Core.QueueManager do
     case queue_exist?(queue) do
       true ->
         GenServer.cast(Queue.via_tuple(queue), {:enqueue, message})
+
       false ->
         start_queue(queue)
 

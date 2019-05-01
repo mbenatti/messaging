@@ -2,14 +2,13 @@ defmodule Messaging.APIWeb.MessagingController do
   @moduledoc """
   Controller responsable to receive requests about receiving messages
   """
-  
+
   use Messaging.APIWeb, :controller
 
   alias Messaging.Core.QueueManager
 
   @doc false
   def create(conn, %{"queue" => queue, "message" => message}) do
-
     :ok = QueueManager.enqueue(queue, message)
 
     conn
@@ -19,7 +18,6 @@ defmodule Messaging.APIWeb.MessagingController do
 
   @doc false
   def create(conn, _) do
-
     conn
     |> put_status(400)
     |> json(%{message: "Invalid params, query params accepted: 'queue' and 'message'"})
