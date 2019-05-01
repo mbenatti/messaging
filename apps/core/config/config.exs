@@ -10,7 +10,8 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :core, key: :value
+config :core,
+   message_interval: 1000
 #
 # and access this configuration in your application as:
 #
