@@ -1,4 +1,8 @@
 defmodule Messaging.Core.Queue do
+  @moduledoc """
+  Represent a Queue, each queue is a Process and constains the logic to process a message on a given interval
+  """
+  
   use GenServer
 
   @prefix "queue_"
