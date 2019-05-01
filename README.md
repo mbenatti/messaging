@@ -12,7 +12,9 @@ The project consists in an umbrella APP
 
 2. core: The implementation of the messasing structure
  	 * `Messaging.Core.QueueManager`: A dynamic supervisor that manages(create) the queues and delegate the messages to `Messaging.Core.Queue`
+	 
 	 * `Messaging.Core.Queue`: Represent the processes for each `Queue`, contains the logic to process the messages(executed by `Messaging.Core.JobMessage`) on given interval(configured by `config :core, message_interval: 1000`), the default interval is one second and the tests expects this config
+	 
 	 * `Messaging.Core.JobMessage`: Is a `Task` that process asynchronous the `message` received, its started by the `Queue`
 
 ## Requirements
