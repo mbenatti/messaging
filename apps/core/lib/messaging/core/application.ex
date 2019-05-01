@@ -8,8 +8,9 @@ defmodule Messaging.Core.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: Messaging.Core.Worker.start_link(arg)
-      # {Messaging.Core.Worker, arg}
+      {Registry, keys: :unique, name: Messaging.QueueRegistry},
+      Messaging.Core.QueueManager,
+      {Task.Supervisor, name: Messaging.MessageJobSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
