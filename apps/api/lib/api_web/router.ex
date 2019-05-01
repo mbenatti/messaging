@@ -5,7 +5,7 @@ defmodule Messaging.APIWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", Messaging.APIWeb do
+  scope "/", Messaging.APIWeb do
     pipe_through :api
 
     get "/receive-message", MessagingController, :create
