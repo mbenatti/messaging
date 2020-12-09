@@ -15,7 +15,7 @@ config :api, Messaging.APIWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "roa2XIdfZhzjMx7AH0UBbs8rkF0oIOqPwKGOuDZl/zE2jYOF32c04yLyDqAf38Vu",
   render_errors: [view: Messaging.APIWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Messaging.API.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: Messaging.API.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,

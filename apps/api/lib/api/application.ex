@@ -9,7 +9,8 @@ defmodule Messaging.API.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      Messaging.APIWeb.Endpoint
+      Messaging.APIWeb.Endpoint,
+      {Phoenix.PubSub, name: Messaging.API.PubSub}
       # Starts a worker by calling: Messaging.API.Worker.start_link(arg)
       # {Messaging.API.Worker, arg},
     ]

@@ -18,8 +18,9 @@ defmodule Messaging.APIWeb.ConnCase do
   using do
     quote do
       # Import conveniences for testing with connections
-      use Phoenix.ConnTest
       alias Messaging.APIWeb.Router.Helpers, as: Routes
+      import Plug.Conn
+      import Phoenix.ConnTest
 
       # The default endpoint for testing
       @endpoint Messaging.APIWeb.Endpoint
