@@ -73,14 +73,14 @@ iex(2)> for i <- 1..5 do
 ...(2)> QueueManager.enqueue "Queue 2", "Hello World #{i}"
 ...(2)> end
 [:ok, :ok, :ok, :ok, :ok]
-2019-05-01 18:10:36.891 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 1}
-2019-05-01 18:10:36.891 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 1}
-2019-05-01 18:10:37.892 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 2}
-2019-05-01 18:10:37.892 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 2}
-2019-05-01 18:10:38.893 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 3}
-2019-05-01 18:10:38.893 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 3}
-2019-05-01 18:10:39.894 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 4}
-2019-05-01 18:10:39.894 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 4}
-2019-05-01 18:10:40.895 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 5}
-2019-05-01 18:10:40.895 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 5}
+2019-05-01 18:10:36.891 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 1
+2019-05-01 18:10:36.891 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 1
+2019-05-01 18:10:37.892 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 2
+2019-05-01 18:10:37.892 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 2
+2019-05-01 18:10:38.893 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 3
+2019-05-01 18:10:38.893 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 3
+2019-05-01 18:10:39.894 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 4
+2019-05-01 18:10:39.894 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 4
+2019-05-01 18:10:40.895 [info] MessageJob - Queue: queue_Queue 2 -> Msg: Hello World 5
+2019-05-01 18:10:40.895 [info] MessageJob - Queue: queue_Queue 1 -> Msg: Hello World 5
 ```
