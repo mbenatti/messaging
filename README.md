@@ -46,13 +46,15 @@ $ mix phx.server
 1. Run mix tests
 
 ```shell
-$ mix tests
+$ mix test
 ```
 
 2. After setup you can test it manually calling the endpoint:
 
 ```
 http://localhost:4000/receive-message?queue=my_queue&message=my_msg
+or
+curl -v http://localhost:4000/receive-message?queue=queue&message=message
 ```
 
 ## How to guarantee that messages are processed on the given interval?
