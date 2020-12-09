@@ -9,7 +9,7 @@ defmodule Messaging.Core.Application do
     # List all child processes to be supervised
     children = [
       {Registry, keys: :unique, name: Messaging.QueueRegistry},
-      Messaging.Core.QueueManager,
+      {DynamicSupervisor, strategy: :one_for_one, name: Messaging.Core.QueueManager},
       {Task.Supervisor, name: Messaging.MessageJobSupervisor}
     ]
 

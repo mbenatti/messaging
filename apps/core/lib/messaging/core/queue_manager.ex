@@ -3,19 +3,8 @@ defmodule Messaging.Core.QueueManager do
   Queue Manager is a Supervisor responsible to manage the Queues,
   The main responsibility is start new `Messaging.Core.Queue`, supervise it and delegate to enqueue new message
   """
-  use DynamicSupervisor
 
   alias Messaging.Core.Queue
-
-  @doc false
-  def start_link(_) do
-    DynamicSupervisor.start_link(__MODULE__, :ok, name: __MODULE__)
-  end
-
-  @doc false
-  def init(:ok) do
-    DynamicSupervisor.init(strategy: :one_for_one)
-  end
 
   @doc """
   Verify if the Queue exists, start it if not exist and call :enqueue on the `Messaging.Core.Queue`
