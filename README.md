@@ -1,7 +1,12 @@
 # Messaging
 
-Messaging is an application built for test purposes, the application consists on multiples Queue(GenServer) created dynamically that process messages on a given `interval`.
-The queues are created dynamically.
+Messaging is an application built for test purposes, the application consists on multiples Queue(GenServer) created dynamically 
+that process messages on a given `interval`.
+The queues are create dynamically.
+
+## Conceptual REST API that processes messages.
+
+![Diagram](diagram.png)
 
 ## Structure
 
@@ -10,19 +15,20 @@ The project consists in an umbrella APP
 1. api: 
 	* A regular Phoenix app with one endpoint to receive messages and delegate it to `Messaging.Core.QueueManager`(on `core` app)
 
-2. core: The implementation of the messasing structure
- 	 * `Messaging.Core.QueueManager`: A dynamic supervisor that manages(create) the queues and delegate the messages to `Messaging.Core.Queue`
+2. core: The implementation of the messaging structure
+ 	 * `Messaging.Core.QueueManager`: A dynamic supervisor that manages(create and retrieve) the queues and delegate the messages 
+     to `Messaging.Core.Queue`
 	 
-	 * `Messaging.Core.Queue`: Represent the processes for each `Queue`, contains the logic to process the messages(executed by `Messaging.Core.JobMessage`) on given interval(configured by `config :core, message_interval: 1000`), the default interval is one second and the tests expects this config
+	 * `Messaging.Core.Queue`: Represent the processes for each `Queue`, contains the logic to process 
+	 the messages(executed by `Messaging.Core.MessageJob`) on given interval(configured by `config :core, message_interval: 1000`),
+	 the default interval is one second and the tests expects this config
 	 
-	 * `Messaging.Core.JobMessage`: Is a `Task` that process asynchronous the `message` received, its started by the `Queue`
+	 * `Messaging.Core.MessageJob`: Is a `Task` that process asynchronous the `message` received, its started by the `Queue`
 
 ## Requirements
 
 * Erlang/OTP 21 [erts-10.3]+
-* Elixir 1.8.1+ (compiled with OTP 21)
-
-(not tested on OTP 20 or others versions of elixir, but should work fine using the latest versions)
+* Elixir 1.11.1+ (compiled with OTP 21)
 
 ## Setup / Development
 
@@ -49,7 +55,7 @@ $ mix phx.server
 $ mix test
 ```
 
-2. After setup you can test it manually calling the endpoint:
+2. After the setup you can test it manually calling the endpoint:
 
 ```
 http://localhost:4000/receive-message?queue=my_queue&message=my_msg
@@ -57,12 +63,17 @@ or
 curl -v http://localhost:4000/receive-message?queue=queue&message=message
 ```
 
-## How to guarantee that messages are processed on the given interval?
+## Static code analysis
+
+```shell
+$ mix credo --strict
+```
+
+## How to guarantee that messages are being processed on the given interval?
 
 1. The tests on `Messaging.CoreTest` guarantee that, that messages are `assert_receive` are received on given `interval`
 
 2. You can manually see the logs time
-
 
 ```
 $ iex -S mix
