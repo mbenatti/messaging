@@ -62,6 +62,16 @@ http://localhost:4000/receive-message?queue=my_queue&message=my_msg
 or
 curl -v http://localhost:4000/receive-message?queue=queue&message=message
 ```
+## Samples
+
+1. Create 1000 messages samples stressing the server by 1k requests with a concurrency factor of 30
+```shell
+$ mix phx.server
+```
+2. on another shell
+```shell
+$ mix samples
+```
 
 ## Static code analysis
 
