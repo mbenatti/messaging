@@ -11,20 +11,26 @@ defmodule Messaging.Core.QueueManager do
   """
   @spec enqueue(String.t(), String.t()) :: :ok
   def enqueue(queue, message) do
-    case queue_exist?(queue) do
-      true ->
-        GenServer.cast(Queue.via_tuple(queue), {:enqueue, message})
+    queue
+    |> Queue.queue_name()
+    |> queue_exist?()
+    |> do_enqueue(message)
+  end
 
-      false ->
-        start_queue(queue)
+  defp do_enqueue({true, queue_name}, message) do
+    GenServer.cast(Queue.via_tuple(queue_name), {:enqueue, message})
+  end
 
-        GenServer.cast(Queue.via_tuple(queue), {:enqueue, message})
-    end
+  defp do_enqueue({false, queue_name}, message) do
+    start_queue(queue_name)
+
+    GenServer.cast(Queue.via_tuple(queue_name), {:enqueue, message})
   end
 
   @doc """
   Starts a `Messaging.Core.Queue` process and supervises it.
   """
+  @spec start_queue(String.t()) :: DynamicSupervisor.on_start_child()
   def start_queue(queue_name) do
     child_spec = %{
       id: Queue,
@@ -36,9 +42,9 @@ defmodule Messaging.Core.QueueManager do
   end
 
   defp queue_exist?(queue) do
-    case Registry.lookup(Messaging.QueueRegistry, Queue.queue_name(queue)) do
-      [] -> false
-      [{_pid, _}] -> true
+    case Registry.lookup(Messaging.QueuesRegistry, queue) do
+      [] -> {false, queue}
+      [{_pid, _}] -> {true, queue}
     end
   end
 end

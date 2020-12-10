@@ -18,12 +18,12 @@ defmodule Messaging.Core.MessageJob do
   @doc """
   Do whatever you want with the message
   """
-  @spec run(String.t(), String.t()) :: :ok
+  @spec run(String.t(), String.t()) :: :success
   def run(queue, msg) do
     # Processing the message
     # Some logic ex. save on db, etc.
     Logger.info("MessageJob - Queue: #{queue} -> Msg: #{msg}")
 
-    :ok
+    :success
   end
 end

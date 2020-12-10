@@ -8,7 +8,7 @@ defmodule Messaging.Core.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      {Registry, keys: :unique, name: Messaging.QueueRegistry},
+      {Registry, keys: :unique, name: Messaging.QueuesRegistry},
       {DynamicSupervisor, strategy: :one_for_one, name: Messaging.Core.QueueManager},
       {Task.Supervisor, name: Messaging.MessageJobSupervisor}
     ]

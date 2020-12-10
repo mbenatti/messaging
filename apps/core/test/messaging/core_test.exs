@@ -1,9 +1,9 @@
 defmodule Messaging.CoreTest do
   use ExUnit.Case
 
-  alias Messaging.Core.{QueueManager, Queue}
+  alias Messaging.Core.{Queue, QueueManager}
 
-  # 10 milliseconds more because the cost of :process_message logic
+  # 10 milliseconds more because the cost of :process logic/process allocation
   @timeout 1010
 
   test "enqueue with different's queues" do
@@ -13,45 +13,49 @@ defmodule Messaging.CoreTest do
     QueueManager.enqueue(queue1, "My msg")
     QueueManager.enqueue(queue2, "My msg")
 
-    assert [{pid, _}] = Registry.lookup(Messaging.QueueRegistry, Queue.queue_name(queue1))
-    assert [{pid2, _}] = Registry.lookup(Messaging.QueueRegistry, Queue.queue_name(queue2))
+    assert [{pid, _}] = Registry.lookup(Messaging.QueuesRegistry, Queue.queue_name(queue1))
+    assert [{pid2, _}] = Registry.lookup(Messaging.QueuesRegistry, Queue.queue_name(queue2))
 
     refute pid == pid2
   end
 
-  test "ensure :process_message executed on each second" do
-    queue_name = "queue_name"
+  test "ensure :process executed on each second" do
+    queue = "my_queue"
+    queue_name = Queue.queue_name(queue)
+
     QueueManager.start_queue(queue_name)
 
-    [{pid, _}] = Registry.lookup(Messaging.QueueRegistry, Queue.queue_name(queue_name))
+    [{pid, _}] = Registry.lookup(Messaging.QueuesRegistry, queue_name)
 
     :erlang.trace(pid, true, [:receive])
 
-    QueueManager.enqueue(queue_name, "My msg2")
-    QueueManager.enqueue(queue_name, "My msg3")
-    QueueManager.enqueue(queue_name, "My msg4")
+    QueueManager.enqueue(queue, "My msg2")
+    QueueManager.enqueue(queue, "My msg3")
+    QueueManager.enqueue(queue, "My msg4")
 
-    # Receive each message in interval of @timeout
-    assert_receive {:trace, ^pid, :receive, :process_message}, @timeout
-    assert_receive {:trace, ^pid, :receive, :process_message}, @timeout
-    assert_receive {:trace, ^pid, :receive, :process_message}, @timeout
+    # Receive/process each message in interval of @timeout
+    assert_receive {:trace, ^pid, :receive, :process}, @timeout
+    assert_receive {:trace, ^pid, :receive, :process}, @timeout
+    assert_receive {:trace, ^pid, :receive, :process}, @timeout
   end
 
-  test ":process_message successful processed the message" do
-    queue_name = "queue_name"
+  test ":process successful processed the message" do
+    queue = "my_queue"
+    queue_name = Queue.queue_name(queue)
+
     QueueManager.start_queue(queue_name)
 
-    [{pid, _}] = Registry.lookup(Messaging.QueueRegistry, Queue.queue_name(queue_name))
+    [{pid, _}] = Registry.lookup(Messaging.QueuesRegistry, queue_name)
 
     :erlang.trace(pid, true, [:receive])
 
-    QueueManager.enqueue(queue_name, "My msg2")
-    QueueManager.enqueue(queue_name, "My msg3")
-    QueueManager.enqueue(queue_name, "My msg4")
+    QueueManager.enqueue(queue, "My msg2")
+    QueueManager.enqueue(queue, "My msg3")
+    QueueManager.enqueue(queue, "My msg4")
 
-    # Receive each message in interval
-    assert_receive {:trace, ^pid, :receive, {_ref, {:ok, _message_job_pid}}}, @timeout
-    assert_receive {:trace, ^pid, :receive, {_ref, {:ok, _message_job_pid}}}, @timeout
-    assert_receive {:trace, ^pid, :receive, {_ref, {:ok, _message_job_pid}}}, @timeout
+    # Receive callback of each message in interval
+    assert_receive {:trace, ^pid, :receive, {_message_job_pid, :success}}, @timeout
+    assert_receive {:trace, ^pid, :receive, {_message_job_pid, :success}}, @timeout
+    assert_receive {:trace, ^pid, :receive, {_message_job_pid, :success}}, @timeout
   end
 end

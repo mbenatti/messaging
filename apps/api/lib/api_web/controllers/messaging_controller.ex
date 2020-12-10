@@ -1,6 +1,6 @@
 defmodule Messaging.APIWeb.MessagingController do
   @moduledoc """
-  Controller responsable to receive requests about receiving messages
+  Controller responsible to receive requests about receiving messages
   """
 
   use Messaging.APIWeb, :controller
